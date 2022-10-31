@@ -39,21 +39,24 @@ app.get(`${urls.users}/:id`, (req, res) => {
 });
 
 /**
- * @description To add a user to the users files
+ * @description To add a user to the users file
  * @method POST
  * @body { name: string, email: string, dob: string }
  */
 app.post(`${urls.users}`, (req, res) => {
-    let writeToJson = { users: [ ...users, {
-        id: users.length + 1,
-        ...req.body,
-        friendsList: []
-    }]};
+    let writeToJson = {
+        users: [ 
+            ...users, {
+            id: users.length + 1,
+            ...req.body,
+            friendsList: []
+        }]
+    };
     try {
         fs.writeFileSync(`./db/users/users.json`, JSON.stringify(writeToJson));
         res.send({status: 200, message: 'Success'});
     } catch (error) {
-        res.send({status: 400, message: 'There was an issue adding a user.'});
+        res.send({status: 400, message: 'There was an issue adding the user.'});
     }
 });
 
