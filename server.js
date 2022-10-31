@@ -8,7 +8,7 @@ const port = process.env.PORT || 3200;
 const paths = JSON.parse(fs.readFileSync('./db/config/paths.json')).paths;
 const users = JSON.parse(fs.readFileSync('./db/users/users.json')).users;
 
-// add to constants file
+/** @todo add to constants file */
 const urls = { users: '/api/users' };
 
 /**
