@@ -1,0 +1,5 @@
+{
+    "paths": {
+        "users": "api/users"
+    }
+}
