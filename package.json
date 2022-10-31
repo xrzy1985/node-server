@@ -1,13 +1,13 @@
 {
   "name": "rest",
-  "version": "1.0.5",
-  "description": "Express server",
+  "version": "1.0.6",
+  "description": "Node JS server to help with building front end applications",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "James Patterson",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.18.2"
   }
