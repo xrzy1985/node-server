@@ -18,7 +18,7 @@ In order to get the server up and running, you will need to install the followin
 
 ### Endpoints Available
 
-`GET`   /
-`GET`   /api/users
-`GET`   /api/users/:id
-`POST`  /api/users - requires a raw JSON object
+`GET`   /  
+`GET`   /api/users  
+`GET`   /api/users/:id  
+`POST`  /api/users - requires a raw JSON object  
