@@ -1,6 +1,6 @@
 {
   "name": "rest",
-  "version": "1.0.6",
+  "version": "1.1.7",
   "description": "Node JS server to help with building front end applications",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "James Patterson",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "joi": "^17.7.0"
   }
 }
