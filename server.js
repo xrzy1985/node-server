@@ -8,7 +8,7 @@ const api = require('./routes/users');
 
 const port = process.env.PORT || 3200;
 
-app.use('/api', api);
+app.use('/users', api);
 
 /**
  * @description Port listener

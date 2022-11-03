@@ -3,8 +3,6 @@ const router = express.Router();
 const Joi = require('joi');
 const fs = require('fs');
 
-const urls = { users: '/users' };
-
 const schema = Joi.object({
     name: Joi.string().min(3).max(30).required(),
     email: Joi.string().email({
@@ -16,30 +14,12 @@ const schema = Joi.object({
     dob: Joi.string().min(10).required()
 });
 
-router.get('/', (req, res) => {
-    res.send('base path');
-});
-
-/**
- * @description Response that specifies what paths can be reached
- * @method GET
- * @returns { status: number, data: { type: string } }
- */
- router.get('/', (req, res) => {
-    const { paths } = getContent('../db/config/paths.json');
-    if (paths) {
-        sendResponse(res, 200, { data: paths });
-    } else {
-        sendResponse(res, 400, { error: 'The paths were not found.' });
-    }
-});
-
 /**
  * @description To return all users
  * @method GET
  * @return { status: number, data: object[] }
  */
-router.get(`${urls.users}`, (req, res) => {
+router.get(`/`, (req, res) => {
     const { users } = getContent('./db/users/users.json');
     if (users) {
         sendResponse(res, 200, { data: users });
@@ -54,7 +34,7 @@ router.get(`${urls.users}`, (req, res) => {
  * @requestParams id: number
  * @returns { id: number, name: string, email: string, dob: string, friendsList: user[] }
  */
-router.get(`${urls.users}/:id`, (req, res) => {
+router.get(`/:id`, (req, res) => {
     const { users } = getContent('./db/users/users.json');
     if (!users) {
         sendResponse(res, 404, { error: 'The user was not found.' });
@@ -73,7 +53,7 @@ router.get(`${urls.users}/:id`, (req, res) => {
  * @method POST
  * @body { name: string, email: string, dob: string }
  */
-router.post(`${urls.users}`, (req, res) => {
+router.post(`/`, (req, res) => {
     try {
         const { users } = getContent('./db/users/users.json');
         if (!users) {
@@ -113,7 +93,7 @@ router.post(`${urls.users}`, (req, res) => {
  * @method PUT
  * @body { name: string, email: string, dob: string }
  */
-router.put(`${urls.users}/:id`, (req, res) => {
+router.put(`/:id`, (req, res) => {
     const { users } = getContent('./db/users/users.json');
     if (!users) {
         sendResponse(res, 404, { error: 'The users were not found.' });
@@ -144,15 +124,11 @@ router.put(`${urls.users}/:id`, (req, res) => {
     }
 });
 
-router.put(`${urls.users}`, (req, res) => {
-    sendResponse(res, 400, { message: `An ID is a required parameter.` });
-});
-
 /**
  * @description To remove a user from the content
  * @method DELETE
  */
-router.delete(`${urls.users}/:id`, (req, res) => {
+router.delete(`/:id`, (req, res) => {
     if (req.params.id) {
         let { users } = getContent('./db/users/users.json');
         if (!users) {
@@ -174,10 +150,6 @@ router.delete(`${urls.users}/:id`, (req, res) => {
     } else {
         sendResponse(res, 400, { message: `An ID is a required parameter.` });
     }
-});
-
-router.delete(`${urls.users}`, (req, res) => {
-    sendResponse(res, 400, { message: `An ID is a required parameter.` });
 });
 
 /**
