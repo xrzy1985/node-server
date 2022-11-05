@@ -1,6 +1,6 @@
 {
   "name": "rest",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Node JS server to help with building front end applications",
   "main": "index.js",
   "scripts": {
