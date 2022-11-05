@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const Joi = require('joi');
 const fs = require('fs');
 
@@ -20,7 +21,7 @@ const schema = Joi.object({
  * @return { status: number, data: object[] }
  */
 router.get(`/`, (req, res) => {
-    const { users } = getContent('./db/users/users.json');
+    const { users } = getContent(`.${process.env.USERS_CONTENT}`);
     if (users) {
         sendResponse(res, 200, { data: users });
     } else {
@@ -35,7 +36,7 @@ router.get(`/`, (req, res) => {
  * @returns { id: number, name: string, email: string, dob: string, friendsList: user[] }
  */
 router.get(`/:id`, (req, res) => {
-    const { users } = getContent('./db/users/users.json');
+    const { users } = getContent(`.${process.env.USERS_CONTENT}`);
     if (!users) {
         sendResponse(res, 404, { error: 'The user was not found.' });
     } else {
@@ -55,7 +56,7 @@ router.get(`/:id`, (req, res) => {
  */
 router.post(`/`, (req, res) => {
     try {
-        const { users } = getContent('./db/users/users.json');
+        const { users } = getContent(`.${process.env.USERS_CONTENT}`);
         if (!users) {
             sendResponse(res, 500, { error: 'There was an issue with internal data' });
         }
@@ -68,7 +69,7 @@ router.post(`/`, (req, res) => {
                     fs.writeFileSync(`./db/users/users.json`, JSON.stringify({
                         users: [ 
                             ...users, {
-                            id: users.length + 1,
+                            id: crypto.randomUUID(),
                             ...req.body,
                             friendsList: []
                         }]
@@ -94,7 +95,7 @@ router.post(`/`, (req, res) => {
  * @body { name: string, email: string, dob: string }
  */
 router.put(`/:id`, (req, res) => {
-    const { users } = getContent('./db/users/users.json');
+    const { users } = getContent(`.${process.env.USERS_CONTENT}`);
     if (!users) {
         sendResponse(res, 404, { error: 'The users were not found.' });
     } else {
@@ -130,7 +131,7 @@ router.put(`/:id`, (req, res) => {
  */
 router.delete(`/:id`, (req, res) => {
     if (req.params.id) {
-        let { users } = getContent('./db/users/users.json');
+        let { users } = getContent(`.${process.env.USERS_CONTENT}`);
         if (!users) {
             sendResponse(res, 404, { error: 'The users were not found.' });
         } else {
@@ -197,8 +198,6 @@ function sendResponse(res, status, payload) {
     }
     if (payload.error) {
         console.error(`\nError: ${payload.error}`);
-    } else if (payload.data) {
-        console.log(`\nPayload being sent: ${JSON.stringify(payload.data)}`)
     }
     if (status < 400) {
         res.status(status).send(payload.data && payload.message ?

@@ -1,14 +1,17 @@
 const express = require('express');
+const dotenv = require('dotenv').config();
+const routes = require('./routes/users');
+const auth = require('./routes/auth');
 
 const app = express();
+const port = process.env.PORT || 3200;
+
 
 app.use(express.json());
 
-const api = require('./routes/users');
-
-const port = process.env.PORT || 3200;
-
-app.use('/users', api);
+// Services: /users
+app.use(process.env.USERS, routes);
+app.use(process.env.AUTHENTICATION, auth);
 
 /**
  * @description Port listener
