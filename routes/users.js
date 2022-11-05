@@ -186,7 +186,7 @@ function getUser(users, id, index) {
 }
 
 /**
- * @description Helper function to send response from server, and log routerropriate messages to console
+ * @description Helper function to send response from server, and log appropriate messages to console
  * @function sendResponse
  * @params res: object, status: number, payload: object
  */

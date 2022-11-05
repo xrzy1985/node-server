@@ -2,8 +2,11 @@ const CryptoJS = require("crypto-js");
 const express = require('express');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const router = express.Router();
+
+router.use(cors());
 
 const { authentication } = getContent('./db/auth/auth.json');
 
@@ -41,6 +44,18 @@ router.post('/login', (req, res) => {
     
 });
 
+router.post('/sign-up', (req, res) => {
+    if (req) {
+        if (Object.keys(req?.body).length > 0) {
+            res.send({message: 'success'});
+        } else {
+            res.status(401).send({ status: 401, error: 'User data is required in order to be created' });
+        }        
+    } else {
+        res.status(500).send({ status: 500, error: 'Internal server error' });
+    }
+});
+
 /**
  * @description Helper function to get the content from json file
  * @function getContent
@@ -50,6 +65,17 @@ router.post('/login', (req, res) => {
  function getContent(url) {
     return !url ? {} : JSON.parse(fs.readFileSync(url));
 }
+
+function encrypted(value) {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    return CryptoJS.AES.encrypt(
+      value,
+      CryptoJS.enc.Utf8.parse(process.env.KEY),
+      { iv: CryptoJS.enc.Utf8.parse(process.env.SALT) }
+    ).toString();
+  }
 
 function decrypt(value) {
     if (value === null || value === undefined) {
